@@ -2,6 +2,7 @@
 --Date: 2024-11-04
 --Version: 1.0.0
 
+---------------------------------------------------------- Procedure Section ----------------------------------------------------------
 /******************************************************************/
 ----------------------Procedimiento de ventas----------------------
 /******************************************************************/
@@ -32,7 +33,33 @@ BEGIN
 
 END;
 $$;
+-------------------------------------------------------- End Procedure Section --------------------------------------------------------
 
+------------------------------------------------------------ View Section ------------------------------------------------------------
+/************************************************************/
+----------------------Vista para ventas----------------------
+/************************************************************/
+
+--drop view infoVentas;
+
+CREATE VIEW InfoVentas AS
+SELECT 
+    v.IDVenta AS "Venta Nro.",
+    v.IDProducto AS "Producto Nro.",
+    p.Nombre AS "Nombre del producto",
+    p.Descripción AS "Descripción del producto",
+    p.Precio AS "Precio del producto",
+    v.CantidadVendida AS "Cantidad vendida del producto",
+    v.FechaVenta AS "Fecha de venta",
+    v.TiendaOrigen AS "Tienda de venta"
+FROM 
+    ventas v
+JOIN 
+    productos p ON v.IDProducto = p.IDProducto;
+
+---------------------------------------------------------- End View Section ----------------------------------------------------------
+
+----------------------------------------------------------- Trigger Section -----------------------------------------------------------
 /**********************************************************************************/
 ----------------------Trigger para disponibilidad de producto----------------------
 /**********************************************************************************/
@@ -58,23 +85,4 @@ BEFORE UPDATE of CantidadDisp on inventario
 FOR each ROW
 EXECUTE FUNCTION statusInventario();
 
-/************************************************************/
-----------------------Vista para ventas----------------------
-/************************************************************/
-
---drop view infoVentas;
-
-CREATE VIEW InfoVentas AS
-SELECT 
-    v.IDVenta AS "Venta Nro.",
-    v.IDProducto AS "Producto Nro.",
-    p.Nombre AS "Nombre del producto",
-    p.Descripción AS "Descripción del producto",
-    p.Precio AS "Precio del producto",
-    v.CantidadVendida AS "Cantidad vendida del producto",
-    v.FechaVenta AS "Fecha de venta",
-    v.TiendaOrigen AS "Tienda de venta"
-FROM 
-    ventas v
-JOIN 
-    productos p ON v.IDProducto = p.IDProducto;
+--------------------------------------------------------- End Trigger Section ---------------------------------------------------------
